@@ -1,0 +1,393 @@
+#include<iostream> 
+#include<string>
+#include<math.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<windows.h>
+using namespace std;
+#define M 80
+
+char f; 
+FILE *fp;//定义指向文件的指针 
+
+typedef struct student 
+{
+	char num[13];//学号 
+	char name[15];//姓名 
+	int age;//年龄 
+	char x[5];//性别 
+	char year_month_day[15];//生日 
+	char address[30];//地址 
+	int iphone;//电话 
+	char e[30];//邮箱 
+	int xx,yy,wl,cyy,pe;
+}student;//定义结构体变量 
+int wang(); 
+void input(struct student stu[M]);
+void output(struct student stu[M]);
+void lookfor(struct student stu[M]);
+void order(struct student stu[M]);
+void delete_s(struct student stu[M]);
+void modify(struct student stu[M]);
+void xuehao(struct student stu[M]);    
+void xingming(struct student stu[M]);
+void fileread(struct student stu[M]);
+void filewrite(struct student stu[M]);
+int count;//判断学生的数目 
+struct student t;
+int main()
+{
+int choice;//choice用来判断输入的命令；sum用来记录输入错误的次数；i用来判断输入的密码是否正确 
+	struct student stu[M];
+	while(true)
+	{
+		cout<<"****************"<<endl; 
+		cout<<"学生信息管理系统"<<endl; 
+		cout<<"***************"<<endl; 
+		cout<<"***************"<<endl; 
+		cout<<"1、添加学生信息"<<endl; 
+		cout<<"2、浏览学生信息"<<endl; 
+		cout<<"3、查询学生信息"<<endl; 
+		cout<<"4、修改学生信息"<<endl; 
+  		cout<<"5、删除学生信息"<<endl; 
+  		cout<<"6、排序学生信息"<<endl;  
+  		cout<<"7、读取文件学生"<<endl;
+ 		cout<<"8、保存到文件"<<endl;
+ 		cout<<"9、退出系统"<<endl;    
+  		cout<<"***************"<<endl;  
+		cout<<"请输入你的选择"<<endl; //输出菜单 
+		cin>>choice; //输入选择 
+		fflush(stdin);   //清空缓冲区    
+		  switch (choice)      
+  		{ 
+  			case 1:
+			  input(stu);
+			  break;      //添加学生信息  
+  			case 2:
+			  output(stu);
+			  break;//浏览学生信息 
+  			case 3:
+			  lookfor(stu);
+			  break; //寻找学生信息 
+  			case 4:
+			  modify(stu);
+			  break; //修改学生信息 
+  			case 5:
+			  delete_s(stu);
+			  break; //删除学生信息 
+  			case 6:
+			  order(stu);
+			  break; //排序学生信息 
+  			case 7:
+			  fileread(stu);
+			  break; //从文件中读取学生信息 
+  			case 8:
+			  filewrite(stu);
+			  break; //将学生信息写入文件 
+ 			case 9:
+			 cout<<"感谢你使用学生信息管理系统,请关掉程序!"<<endl;
+			 system("pause");
+			 return 0;
+    break;
+  			default:
+			  cout<<"无效的选择!请重新输入!"<<endl;
+			  break; 
+ 		 } 
+
+}
+}
+void input(struct student stu[M])//自定义输入函数
+{
+	system("cls");//清屏 
+ 	cout<<"请添加要输入学生的信息"<<endl;
+ 	cout<<"请输入由11位数字组成的学生的学号"<<endl;
+ 	cin>>stu[count].num;//输入学生学号 
+ 	cout<<"请输入学生的姓名"<<endl;
+ 	cin>>stu[count].name;//输入学生姓名 
+ 	cout<<"请输入学生的年龄"<<endl;
+ 	cin>>stu[count].age;//输入学生年龄 
+ 	cout<<"请输入学生的性别"<<endl;
+ 	cin>>stu[count].x;//输入学生性别 
+ 	cout<<"请输入学生的出生年月"<<endl;
+ 	cin>>stu[count].year_month_day;//输入学生出生年月
+    cout<<"请输入学生的地址"<<endl;
+ 	cin>>stu[count].address; //输入学生地址 
+ 	cout<<"请输入学生的电话"<<endl;
+ 	cin>>stu[count].iphone; //输入学生手机号 
+ 	cout<<"请输入学生的E-mail"<<endl;
+ 	cin>>stu[count].e;//输入学生的邮箱 
+    count++;//计算学生人数 
+}
+void output(struct student stu[M])//自定义输出函数
+{
+	 int j;
+	 system("cls");//清屏 
+	 if(count==0)//判断目前是否有学生信息 
+	 {
+		cout<<"当前已存入学生的信息为0个"<<endl;
+ 		return;
+	 }
+ 	else
+ 	{
+  		for(j=0;j<count;j++)
+  		{
+        	cout<<"学号:"<<stu[j].num<<endl;//输出学号 
+        	cout<<"姓名:"<<stu[j].name<<endl;//输出姓名 
+        	cout<<"年龄:"<<stu[j].age<<endl;//输出年龄 
+        	cout<<"性别:"<<stu[j].x<<endl;//输出性别 
+        	cout<<"出生年月:"<<stu[j].year_month_day<<endl;//输出生日 
+       		cout<<"地址:"<<stu[j].address<<endl;//输出地址 
+        	cout<<"电话:"<<stu[j].iphone<<endl;//输出手机号 
+        	cout<<"E-mail:"<<stu[j].e<<endl;//输出邮箱  
+  		}
+ 	}
+}
+void lookfor(struct student stu[M])//自定义查询函数
+{
+ 	int choice;//定义选择 
+ 	system("cls");//清屏 
+ 	if(count==0)//判断目前是否有学生信息 
+ 	{
+  		cout<<"当前已存学生的信息为0个，无法查询!!!"<<endl;
+  		return ;
+ 	}
+ 	else
+ 	{
+  		cout<<"请选择你所要查询的方式: 1、学号 2、姓名 3、取消"<<endl;
+  		cin>>choice;//输入选项 
+  		switch(choice)
+  		{ 
+  			case 3:return ;break; 
+  			case 2:xingming(stu);break;//按姓名查询 
+  			case 1:xuehao(stu);break; //按学号查询 
+  			default:cout<<"无效的选择!请重新输入!"<<endl;break; 
+  		} 
+ 	}
+}
+
+void xuehao(struct student stu[M])//自定义学号查询函数
+{
+ 	int j,flag=0;
+ 	int k=0;//判断是否找到该学生信息 
+ 	char xh[25];
+ 	system("cls");
+ 	cout<<"请输入你想要查询的学生的学号";
+ 	cin>>xh;//输入学号 
+ 	fflush(stdin);//清空缓冲区 
+ 	for(j=0;j<count;j++)
+ 	{
+  		if(strcmp(stu[j].num,xh)==0)//找到该学号的学生信息 
+  		{
+   			cout<<"学号:"<<stu[j].num<<endl;
+         	cout<<"姓名:"<<stu[j].name<<endl;
+         	cout<<"年龄:"<<stu[j].age<<endl;
+            cout<<"性别:"<<stu[j].x<<endl;
+         	cout<<"出生年月:"<<stu[j].year_month_day<<endl;
+           	cout<<"地址:"<<stu[j].address<<endl;
+         	cout<<"电话:"<<stu[j].iphone<<endl;
+         	cout<<"E-mail:"<<stu[j].e<<endl;
+         	k=1;
+  		}
+ 	}
+ 	if(k==0)//没有找到该学号 
+ 	{
+  		cout<<"很抱歉，没有你所需要的学生信息"<<endl;
+ 	}
+void xingming(struct student stu[M])//自定义姓名查询函数
+{
+	int n=0;
+ 	int j,flag=0;
+	char xm[25];
+	system("cls");
+	cout<<"请输入你想要查询的学生的姓名";
+ 	cin>>xm;
+ 	fflush(stdin);
+ 	for(j=0;j<count;j++)
+ 	{
+  		if(strcmp(stu[j].name,xm)==0)
+  		{
+   			cout<<"学号:"<<stu[j].num<<endl;
+         	cout<<"姓名:"<<stu[j].name<<endl;
+         	cout<<"年龄:"<<stu[j].age<<endl;
+            cout<<"性别:"<<stu[j].x<<endl;
+         	cout<<"出生年月:"<<stu[j].year_month_day<<endl;
+            cout<<"地址:"<<stu[j].address<<endl;
+         	cout<<"电话:"<<stu[j].iphone<<endl;
+         	cout<<"E-mail:"<<stu[j].e<<endl;
+         	n=1;
+  		}
+ 	}
+ 	if(n==0)
+ 	{
+  		cout<<"很抱歉，没有你所需要的学生信息"<<endl;
+ 	}
+}
+void order(struct student stu[M])//自定义排序函数
+{
+ 	int j,k,max; 
+    system("cls"); 
+ 	cout<<"根据学生学号进行排序"<<endl;
+	for(j=0;j<count;j++)    
+    { 
+      	max=j;  
+      	for(k=j+1;k<count;k++)    
+       	 if (stu[k].num>stu[max].num)    
+       		{
+				t=stu[max];
+				stu[max]=stu[k];
+				stu[k]=t;
+			}     
+    };
+	cout<<"排序成功！！！"; 
+}
+void delete_s(struct student stu[M])//自定义删除函数(按学号删除)
+{
+ 	int j,index=0,k=count;
+ 	char xh[25];
+ 	system("cls");
+ 	if(count==0)//判断学生数量是否为0 
+ 	{
+  		cout<<"当前已存学生信息为0个,无法删除!!!"<<endl;
+  		return ;
+ 	}
+ 	else
+ 	{
+  		cout<<"请输入你想要删除的同学学号"<<endl; 
+  		cin>>xh;//输入删除学生的学号 
+  		fflush(stdin); //清空缓冲区 
+  		for(j=0;j<count;j++) 
+  		{ 
+   			if(strcmp(stu[j].num,xh)==0) //寻找该学生 
+   			{ 
+    			for(j=index;j<count;j++) 
+     			stu[j]=stu[j+1]; 
+    			count--; 
+    			if(count<k) //判断是否删除成功 
+     				cout<<"你已经删除成功"<<endl; 
+   			} 
+   			index++;
+  		} 
+  		if(j==count) //判断是否有该学生的信息 
+   			cout<<"抱歉!!!没有你所需要删除的学生信息!*_*!"<<endl;
+ 	}
+}
+void modify(struct student stu[M])//自定义修改函数
+{
+ 	int j,flag=0,course;
+	int i=0;  
+ 	char xh[25]; 
+ 	system("cls"); 
+ 	if (count==0) //判断是否有学生信息 
+ 	{ 
+  		cout<<"当前已存学生信息为0个,无法修改!!!"<<endl; 
+  		return ; 
+ 	} 
+ 	else 
+ 	{ 
+  		cout<<"请输入你想要修改的同学学号"<<endl; 
+  		cin>>xh; //输入要修改学生的学号 
+  		fflush(stdin); 
+  		for(j=0;j<count;j++)
+		{ 
+   			if (strcmp(stu[j].num,xh)==0)       
+   			{ 
+   				i=1;
+    			cout<<"你确定要修改学生的信息吗?如果不确定的话,请关掉本程序吧!"<<endl; 
+    			cout<<"选择信息: 1、学号 2、姓名 3、年龄 4、性别 5、出生年月 6、地址 7、电话 8、E-mail 9、跳过"<<endl; 
+    			cin>>course; //选择要修改的一部分学生信息   
+    			switch(course) 
+    			{
+    				case 1:cin>>stu[j].num;break;//修改学号 
+             		case 2:cout<<"请输入修改后的信息：";cin>>stu[j].name;break;//修改姓名 
+             		case 3:cout<<"请输入修改后的信息：";cin>>stu[j].age;break;//修改年龄 
+             		case 4:cout<<"请输入修改后的信息：";cin>>stu[j].x;break;//修改性别 
+             		case 5:cout<<"请输入修改后的信息：";cin>>stu[j].year_month_day;break;//修改生日 
+             		case 6:cout<<"请输入修改后的信息：";cin>>stu[j].address;break;//修改地址 
+             		case 7:cout<<"请输入修改后的信息：";cin>>stu[j].iphone;break;//修改电话 
+             		case 8:cout<<"请输入修改后的信息：";cin>>stu[j].e;break;//修改邮箱 
+             		case 9:break;
+    				default:cout<<"无效的选择!请重新输入!"<<endl;break;
+    			}
+   			}
+   			 
+   		}
+ 	}
+ 	if(i==0) cout<<"无该学生信息！！"<<endl;
+ 	return ; 
+ 	
+}
+
+
+
+
+
+void filewrite(struct student stu[M])//自定义写入文件函数
+{ 
+ 	int j=0;  
+ 	cout<<"请选择是否要存入已输入的学生信息:'y'还是'n'???"<<endl; 
+ 	cin>>f; //判断是否写入文件 
+ 	fflush(stdin); //清空缓冲区 
+	while(f!='y'&&f!='n')
+ 	{ 
+  		if (f!='y'&&f!='n') 
+   		cout<<"输入错误,请重新输入"<<endl; 
+  		cout<<"以下操作将会覆盖已存储的数据,确定请输入'y'或'n'?"<<endl; 
+  		cin>>f; 
+  		fflush(stdin); 
+ 	} 
+ 	if (f=='y') 
+ 	{ 
+  		if((fp=fopen("stu.txt","w"))==NULL) 
+  		{  
+   			cout<<"cannot open this file"<<endl;  
+   			exit(0); 
+  		} 
+  		for(j=0;j<count;j++)   
+  		{
+   			fwrite(&stu[j],sizeof(struct student),1,fp); //将学生信息写入文件 
+  		} 
+  		fclose(fp); 
+  		if(count==0)//判断学生数目是否为0  
+   			cout<<"没有文件，无法保存"<<endl; 
+  		else 
+   			cout<<"数据存储完毕"<<endl; 
+  			system("pause"); 
+ 	} 
+ 	else  
+  		return ;
+}
+
+
+
+
+
+void fileread(struct student stu[M])//自定义读取文件信息函数
+{ 
+ 	int j=0;  
+ 	system("cls"); 
+ 	cout<<"请选择是否要读取已输入的学生信息:'y'还是'n'?"<<endl; 
+ 	cin>>f; //判断是否从文件中读取学生信息 
+ 	fflush(stdin);  //清空缓冲区 
+ 	if (f=='y') 
+ 	{ 
+  		if((fp=fopen("stu.txt","r"))==NULL) 
+  		{  
+   			cout<<"cannot open this file"<<endl;  
+   			exit(0); 
+  		} 
+  		fread(&stu[j],sizeof(struct student),1,fp);  //从文件中读取学生信息 
+  		count=0; 
+  		count++; 
+  		j++; 
+  		while(fread(&stu[j],sizeof(struct student),1,fp)) 
+  		{  
+   			j++;  
+   			count++; 
+  		} 
+  		fclose(fp); 
+  		cout<<"数据读取完毕!"<<endl; 
+  		system("pause"); 
+ 	} 
+ 	else 
+  		return ;
+}
