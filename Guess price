@@ -1,0 +1,67 @@
+#include<iostream>
+#include<stdlib.h> 
+#include<string>
+using namespace std;
+
+int main()
+{
+	int realprice;
+	string guessprice;
+	int int_guessprice;
+	int n;
+	int i;
+	cout<<"*******物品竞猜*******"<<endl;
+	cout<<"1.不限制次数竞猜"<<endl;
+	cout<<"2.10次机会竞猜"<<endl; 
+	cout<<"3.退出"<<endl;
+	cout<<"********************"<<endl;
+	cout<<"输入数字（1-2）进入不同的功能"<<endl;//主界面
+	cin>>n; //通过输入获得值，选择要使用的功能 
+	while(n!=3)//实现退出 
+	{
+	if(n==1)
+	{realprice=(rand()%(1000-100))+100; //随机生成三位数 
+	while(int_guessprice!=realprice)
+	{i=0; 
+	cout<<"请输入物品价格。"<<endl;
+	 cin>>guessprice;
+	 int_guessprice=atoi(guessprice.c_str());
+	 i=++i; 
+	 if(guessprice=="q")
+	 {break;}
+	 else if(int_guessprice>realprice)
+	 {cout<<"输入的价格太大"<<endl;}
+	 else if(int_guessprice<realprice) 
+	 {cout<<"输入的价格太小"<<endl;}
+	 else
+	 {cout<<"恭喜猜对"<<endl;
+	  cout<<i<<endl;break;//输出次数
+	}
+	  }//持续猜测价格直到输入q或猜对 
+	   } 
+	 
+	if(n==2)
+	{realprice=(rand()%(1000-100))+100; //随机生成三位数 
+	for(i=1;i<=10;i++)
+	{cout<<"请输入物品价格。"<<endl; 
+	 cin>>int_guessprice;
+	 if(int_guessprice>realprice)
+	 {cout<<"输入的价格太大"<<endl;}
+	 else if(int_guessprice<realprice) 
+	 {cout<<"输入的价格太小"<<endl;}
+	 else
+	 {cout<<"恭喜猜对"<<endl;
+	  cout<<i<<endl;
+	 break;} //10次机会猜测价格 
+	}
+	}
+	cout<<endl;
+	cout<<"*******物品竞猜*******"<<endl;
+	cout<<"1.不限制次数竞猜"<<endl;
+	cout<<"2.10次机会竞猜"<<endl; 
+	cout<<"3.退出"<<endl;
+	cout<<"********************"<<endl;
+	cout<<"输入数字（1-2）进入不同的功能"<<endl;
+	cin>>n;
+}
+}
